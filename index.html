@@ -36,8 +36,9 @@
                 x_space = 3;
                 var x = width / 2 - radius * 6 + radius * (x_space / 2);
                 for (i = 0; i < num_dots; i++){
-                    localStorage.removeItem("fourpoints_id_"+i+"_x");
-                    localStorage.removeItem("fourpoints_id_"+i+"_y");
+                    // reset dots
+                    // localStorage.removeItem("fourpoints_id_"+i+"_x");
+                    // localStorage.removeItem("fourpoints_id_"+i+"_y");
                     var dot_x = localStorage.getItem("fourpoints_id_"+i+"_x");
                     if (dot_x == null){ dot_x = x}
                     var dot_y = localStorage.getItem("fourpoints_id_"+i+"_y");

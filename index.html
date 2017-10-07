@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>
+        <script src="./raphael.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            window.onload = function () {
+
+                var dragger = function() {
+                    this.ox = this.attr("cx");
+                    this.oy = this.attr("cy");
+
+                },
+                move = function(dx, dy) {
+                    var mx = this.ox + dx;
+                    var my = this.oy + dy;
+                    this.attr({cx: mx, cy: my});
+                },
+                up = function() {
+                    var prefix = "fourpoints_id_"+this.data("fourpoints_id");
+                    localStorage.setItem(prefix+"_x", this.attr("cx"));
+                    localStorage.setItem(prefix+"_y", this.attr("cy"));
+                };
+                
+                var height = window.innerHeight;
+                var width  = window.innerWidth;
+                var smaller_side = (height < width) ? height : width;
+                console.log("height: "+ height +", width: "+ width);
+                console.log(smaller_side);
+                var radius = smaller_side / 12;
+
+                var paper = Raphael(0,0,width,height);
+                paper.canvas.style.backgroundColor = "black";
+                var num_dots = 4;
+                var dots = [];
+                var colors = ["red", "blue", "green", "yellow"];
+                x_space = 3;
+                var x = width / 2 - radius * 6 + radius * (x_space / 2);
+                for (i = 0; i < num_dots; i++){
+                    localStorage.removeItem("fourpoints_id_"+i+"_x");
+                    localStorage.removeItem("fourpoints_id_"+i+"_y");
+                    var dot_x = localStorage.getItem("fourpoints_id_"+i+"_x");
+                    if (dot_x == null){ dot_x = x}
+                    var dot_y = localStorage.getItem("fourpoints_id_"+i+"_y");
+                    if (dot_y == null){ dot_y = height / 2}
+                    dots[i] = paper.circle(parseInt(dot_x), parseInt(dot_y), radius);
+                    dots[i].attr("fill", colors[i]);
+                    dots[i].drag(move, dragger, up);
+                    dots[i].data("fourpoints_id", i);
+                    x+=radius*x_space;
+                }
+            }
+        </script>
+    </head> 
+    </html>
